@@ -497,44 +497,47 @@ Figure~\ref{fig:web} displays the structural web. We use solid arrows for \emph{
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}[
-  test/.style={draw, rounded corners, minimum width=2.2cm, minimum height=0.8cm, align=center, font=\small},
+  test/.style={draw, rounded corners, minimum width=2.4cm, minimum height=0.9cm, align=center, font=\small},
   arr/.style={-{Stealth}, thick, color=blue!60!black},
   conj/.style={-{Stealth}, thick, dashed, color=red!60!black},
+  lbl/.style={font=\tiny, fill=white, inner sep=1.5pt},
   >=Stealth
 ]
-  % Spectral pillar
-  \node[test] (P1) at (0,3) {P1\\Unit circle};
-  \node[test] (P2) at (3,3) {P2\\Li $\lambda_n$};
-  \node[test] (P3) at (6,3) {P3\\Power sums};
+  % Spectral pillar (top row)
+  \node[test, fill=blue!8] (P1) at (0,3.5) {P1\\Unit circle};
+  \node[test, fill=blue!8] (P2) at (4,3.5) {P2\\Li $\lambda_n$};
+  \node[test, fill=blue!8] (P3) at (8,3.5) {P3\\Power sums};
   
-  % Statistical pillar
-  \node[test] (P4) at (3,0) {P4\\GUE spacing};
+  % Statistical pillar (middle)
+  \node[test, fill=red!8] (P4) at (4,0) {P4\\GUE spacing};
   
-  % Arithmetic pillar
-  \node[test] (P5) at (0,-3) {P5\\Mertens};
-  \node[test] (P6) at (3,-3) {P6\\M\"ob.\ orth.};
-  \node[test] (P7) at (6,-3) {P7\\Explicit};
+  % Arithmetic pillar (bottom row)
+  \node[test, fill=green!8] (P5) at (0,-3.5) {P5\\Mertens};
+  \node[test, fill=green!8] (P6) at (4,-3.5) {P6\\M\"ob.\ orth.};
+  \node[test, fill=green!8] (P7) at (8,-3.5) {P7\\Explicit};
   
-  % PROVED connections (solid)
-  \draw[arr] (P1) -- (P2) node[midway,above,font=\tiny] {Li \cite{Li1997}};
-  \draw[arr] (P2) -- (P3) node[midway,above,font=\tiny] {Newton};
-  \draw[arr] (P5) -- (P7) node[midway,below,font=\tiny] {explicit};
-  \draw[arr] (P6) -- (P7) node[midway,below,font=\tiny] {Perron};
-  \draw[arr] (P7) -- (P2) node[midway,right,font=\tiny,xshift=3pt] {\rotatebox{-60}{bridge}};
-  \draw[arr] (P3) -- (P7) node[midway,right,font=\tiny,xshift=3pt] {\rotatebox{60}{$\zeta'(\rho)$}};
+  % PROVED connections (solid) — horizontal
+  \draw[arr] (P1) -- (P2) node[lbl, midway, above] {Li \cite{Li1997}};
+  \draw[arr] (P2) -- (P3) node[lbl, midway, above] {Newton};
+  \draw[arr] (P5) -- (P7) node[lbl, midway, above] {explicit};
+  \draw[arr] (P6) -- (P7) node[lbl, midway, above] {Perron};
+  
+  % PROVED connections (solid) — diagonal, labels offset to avoid overlap
+  \draw[arr] (P7.north) -- (P2.south) node[lbl, pos=0.4, right=6pt] {bridge};
+  \draw[arr] (P3.south) -- (P7.north east) node[lbl, pos=0.4, left=6pt] {$\zeta'(\rho)$};
   
   % CONJECTURED connections (dashed)
-  \draw[conj] (P1) -- (P4) node[midway,left,font=\tiny,xshift=-3pt] {\rotatebox{-60}{\color{red!60!black}Montgomery}};
-  \draw[conj] (P4) -- (P6) node[midway,left,font=\tiny,xshift=-3pt] {\rotatebox{60}{\color{red!60!black}heuristic}};
+  \draw[conj] (P1.south) -- (P4.north west) node[lbl, pos=0.5, left=6pt] {\color{red!60!black}Montgomery};
+  \draw[conj] (P4.south west) -- (P6.north) node[lbl, pos=0.5, left=6pt] {\color{red!60!black}heuristic};
   
-  % Pillar labels
-  \node[above=5pt of P2, font=\small\bfseries, color=blue!70!black] {Spectral Geometry};
-  \node[right=10pt of P4, font=\small\bfseries, color=red!70!black] {Statistical Mechanics};
-  \node[below=5pt of P6, font=\small\bfseries, color=green!50!black] {Arithmetic Randomness};
+  % Pillar labels — positioned clearly away from nodes
+  \node[above=10pt of P2, font=\small\bfseries, color=blue!70!black] {Spectral Geometry};
+  \node[above=10pt of P4, font=\small\bfseries, color=red!70!black, xshift=50pt] {Statistical Mechanics};
+  \node[below=10pt of P6, font=\small\bfseries, color=green!50!black] {Arithmetic Randomness};
   
-  % Legend
-  \draw[arr] (8.5,1) -- (9.5,1) node[right,font=\footnotesize] {proved};
-  \draw[conj] (8.5,0.3) -- (9.5,0.3) node[right,font=\footnotesize] {conjectured};
+  % Legend — far right
+  \draw[arr] (11,1) -- (12,1) node[right,font=\footnotesize] {proved};
+  \draw[conj] (11,0.2) -- (12,0.2) node[right,font=\footnotesize] {conjectured};
 \end{tikzpicture}
 \caption{The structural web. Solid blue arrows: proved implications. Dashed red arrows: conjectured/heuristic connections.}
 \label{fig:web}
@@ -612,13 +615,19 @@ We have presented a unified exploration of seven perspectives on the Riemann Hyp
 
 The structural web connecting these perspectives reveals a coherent architecture, with proved implications linking Li positivity to the explicit formula, and conjectured connections running through GUE statistics. We hope this unified presentation, with its honest delineation of what is known and what is conjectured, serves both as a pedagogical resource and as a template for more ambitious multi-perspective computational studies of $L$-functions.
 
-The complete dataset (1.8\,MB) and all source code are available at \url{https://github.com/JackZH26/riemann-hypothesis-7tests}.
+% ============================================================
+% Declarations
+% ============================================================
+\section*{Declarations}
 
-% ============================================================
-% Data Availability
-% ============================================================
-\subsection*{Data Availability Statement}
-The datasets generated and analysed during this study are openly available in GitHub at \url{https://github.com/JackZH26/riemann-hypothesis-7tests}. This includes the 10{,}000 computed zeros, all derived datasets, and the complete source code.
+\subsection*{Ethical Approval}
+Not applicable.
+
+\subsection*{Funding}
+This research received no external funding.
+
+\subsection*{Availability of Data and Materials}
+All computational scripts, the 10{,}000 computed zeros, all derived datasets, and the complete source code are openly available at \url{https://github.com/JackZH26/riemann-hypothesis-7perspectives}.
 
 % ============================================================
 % References
